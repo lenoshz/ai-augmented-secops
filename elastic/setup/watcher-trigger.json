@@ -1,0 +1,44 @@
+{
+  "trigger": {
+    "schedule": {
+      "interval": "30s"
+    }
+  },
+  "input": {
+    "search": {
+      "request": {
+        "indices": ["genesissoc-alerts"],
+        "body": {
+          "size": 1,
+          "sort": [{"@timestamp": {"order": "desc"}}],
+          "query": {
+            "range": {
+              "@timestamp": {
+                "gte": "now-1m"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "condition": {
+    "compare": {
+      "ctx.payload.hits.total.value": {
+        "gt": 0
+      }
+    }
+  },
+  "actions": {
+    "enrich_latest_alert": {
+      "webhook": {
+        "method": "POST",
+        "url": "http://enrichment-service:8000/api/v1/enrich",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{{#toJson}}ctx.payload.hits.hits.0._source{{/toJson}}"
+      }
+    }
+  }
+}
