@@ -6,7 +6,7 @@ anthropic==0.42.0
 elasticsearch==8.17.0
 redis==5.2.1
 httpx==0.28.1
-aiohttp==3.11.11
+aiohttp==3.13.3
 mitreattack-python==3.0.8
 pytest==8.3.4
 pytest-asyncio==0.25.0

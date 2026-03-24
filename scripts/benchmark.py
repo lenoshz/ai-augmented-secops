@@ -21,7 +21,7 @@ def _percentile(values: list[float], percentile: float) -> float:
 
 
 def main() -> None:
-    """Run 50 enrichment calls and print latency and token estimate metrics."""
+    """Run 50 enrichment calls and print latency and approximate token metrics."""
     alerts = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
     latencies_ms: list[float] = []
     token_counts: list[int] = []
@@ -39,7 +39,13 @@ def main() -> None:
             token_counts.append(len(json.dumps(payload)) // 4)
 
     print(f"runs=50 mean_ms={statistics.mean(latencies_ms):.2f} p95_ms={_percentile(latencies_ms, 95):.2f} p99_ms={_percentile(latencies_ms, 99):.2f}")
-    print(f"token_estimate mean={statistics.mean(token_counts):.2f} p95={_percentile(token_counts, 95):.2f} p99={_percentile(token_counts, 99):.2f}")
+    print(
+        "token_estimate_approx "
+        f"mean={statistics.mean(token_counts):.2f} "
+        f"p95={_percentile(token_counts, 95):.2f} "
+        f"p99={_percentile(token_counts, 99):.2f} "
+        "(derived from response JSON bytes/4)"
+    )
 
 
 if __name__ == "__main__":

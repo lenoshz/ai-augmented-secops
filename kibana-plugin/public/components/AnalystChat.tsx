@@ -66,6 +66,11 @@ export const AnalystChat: React.FC<AnalystChatProps> = ({ alertContext }) => {
             placeholder="Ask GenesisSOC analyst assistant"
             value={input}
             onChange={(event) => setInput(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                void sendMessage();
+              }
+            }}
           />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
