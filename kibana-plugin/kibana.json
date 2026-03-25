@@ -1,0 +1,9 @@
+{
+  "id": "genesissoc",
+  "version": "8.15.0",
+  "kibanaVersion": "8.15.0",
+  "server": false,
+  "ui": true,
+  "requiredPlugins": [],
+  "optionalPlugins": []
+}
